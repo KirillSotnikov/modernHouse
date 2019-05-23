@@ -30,19 +30,19 @@
               <input type="radio" name="slider" id="s4" />
               <input type="radio" name="slider" id="s5" />
               <label for="s1" id="slide1">
-                <img src="/static/img/main_slider1.d7da8ad.png" alt="" class="slider_image" />
+                <img :src="portfolio.gallery[0].img" alt="" class="slider_image" />
               </label>
               <label for="s2" id="slide2">
-                <img src="/static/img/main_slider1.d7da8ad.png" alt="" class="slider_image" />
+                <img :src="portfolio.gallery[1].img" alt="" class="slider_image" />
               </label>
               <label for="s3" id="slide3">
-                <img src="/static/img/main_slider1.d7da8ad.png" alt="" class="slider_image" />
+                <img :src="portfolio.gallery[2].img" alt="" class="slider_image" />
               </label>
               <label for="s4" id="slide4">
-                <img src="/static/img/main_slider1.d7da8ad.png" alt="" class="slider_image" />
+                <img :src="portfolio.gallery[3].img" alt="" class="slider_image" />
               </label>
               <label for="s5" id="slide5">
-                <img src="/static/img/main_slider1.d7da8ad.png" alt="" class="slider_image" />
+                <img :src="portfolio.gallery[4].img" alt="" class="slider_image" />
               </label>
             </div>
             <div class="mobile_slider d-block d-sm-none">
@@ -93,7 +93,7 @@
       </section>
       <section class="about_description">
         <div class="wrapper">
-          <p class="about_description_title">Описание</p>
+          <p class="about_description_title">{{portfolio.title}}</p>
           <p class="about_description_text">
             Значимость этих проблем настолько очевидна, что реализация
             намеченных плановых заданий играет важную роль в формировании

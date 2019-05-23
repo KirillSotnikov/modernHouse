@@ -1,4 +1,5 @@
 <template>
+    <div>
       <section class="feedback">
         <div class="feedback_container row">
           <div class="feedback_box feedback_box_form col-12 col-md-6">
@@ -7,7 +8,7 @@
               <p class="feedback_card_text">
                 Не следует, однако забывать, что сложившаяся структура организации играет важную роль в формировании
               </p>
-              <a class="feedback_card_link">Обратная связь</a>
+              <a class="feedback_card_link" @click="toggleModal">Обратная связь</a>
             </div>
           </div>
           <div class="feedback_box col-12 col-md-6">
@@ -16,11 +17,26 @@
           </div>
         </div>
       </section>
+      <app-feedback-modal :modalClass="modalClass" :toggleModal="toggleModal"></app-feedback-modal>
+    </div>
 </template>
 
 <script>
+import Modal from '@/components/partials/Modal'
 export default {
-  
+  data () {
+    return {
+      modalClass: false
+    }
+  },
+  components: {
+    'app-feedback-modal': Modal
+  },
+  methods: {
+    toggleModal () {
+      this.modalClass = !this.modalClass
+    }
+  }
 }
 </script>
 

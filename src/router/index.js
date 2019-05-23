@@ -8,6 +8,7 @@ import Services from '@/components/Services/AllServices'
 import Sales from '@/components/Services/Sales'
 import Work from '@/components/PortfolioWork'
 import PodServices from '@/components/Services/PodServices'
+import Login from '@/components/admin/Auth/Login'
 
 Vue.use(Router)
 
@@ -16,7 +17,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
+      name: 'Main-page',
       component: mainPage
     },
     {
@@ -50,6 +51,17 @@ export default new Router({
       props: true,
       name: 'Portfolio',
       component: PodServices
+    },
+
+    // Admin
+
+    {
+      path: '/admin',
+      name: 'Admin',
+      component: Login,
+      beforeEnter () {
+        
+      }
     }
   ]
 })
