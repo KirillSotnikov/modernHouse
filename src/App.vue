@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <app-navbar></app-navbar>
+    <!-- <app-navbar v-if="notAdminPage"></app-navbar> -->
     <router-view></router-view>
-    <app-footer></app-footer>
+    <!-- <app-footer v-if="notAdminPage"></app-footer> -->
   </div>
 </template>
 
@@ -12,26 +12,28 @@ import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
 export default {
   name: 'App',
-  components: {
-    'app-footer': Footer,
-    'app-navbar': Navbar
+  data () {
+    return {
+      notAdminPage: true
+    }
   },
-  created() {
-    // $('.burger_btn').on('click', function(){
-    //   console.log('Created')
-    //   $(this).toggleClass('active');
-    //   $('.header').toggleClass('fixed_head');
-    //   $('.menu_container').toggleClass('active');
-    // });
-
-    // $('.feedback_card_link').on('click', function(){
-    //     $('.modal').addClass('active');
-    // });
-    // $('.close_modal').on('click', function(){
-    //     $('.modal').removeClass('active');
-    // });
-
-  }
+  components: {
+    // 'app-footer': Footer,
+    // 'app-navbar': Navbar
+  },
+  // mounted() {
+  //   let hrefStr = window.location.pathname
+  //   if (hrefStr.search('/admin') != -1){
+  //     this.notAdminPage = false
+  //   }
+  // },
+  // watch: {
+  //   '$route' (to, from) {
+  //     if (to.path.search('/admin') == -1) {
+  //       this.notAdminPage = true
+  //     }
+  //   }
+  // }
 }
 </script>
 

@@ -9,6 +9,10 @@ import Sales from '@/components/Services/Sales'
 import Work from '@/components/PortfolioWork'
 import PodServices from '@/components/Services/PodServices'
 import Login from '@/components/admin/Auth/Login'
+import AdminServices from '@/components/admin/Services'
+import AdminPortfolio from '@/components/admin/Portfolio'
+
+import store from '../store'
 
 Vue.use(Router)
 
@@ -58,10 +62,27 @@ export default new Router({
     {
       path: '/admin',
       name: 'Admin',
-      component: Login,
-      beforeEnter () {
-        
+      beforeEnter (to, from, next) {
+        console.log(store)
+        setTimeout(function () {
+          store.getters.checkUser ? next('/admin/services') : next('/admin/login')
+        }, 10)
       }
+    },
+    {
+      path: '/admin/login',
+      name: 'Admin',
+      component: Login
+    },
+    {
+      path: '/admin/services',
+      name: 'Admin Services',
+      component: AdminServices
+    },
+    {
+      path: '/admin/portfolio',
+      name: 'Admin Portfolio',
+      component: AdminPortfolio
     }
   ]
 })

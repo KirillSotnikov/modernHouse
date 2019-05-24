@@ -1,5 +1,6 @@
 <template>
   <div>
+    <app-navbar></app-navbar>
       <section class="serve_container">
         <div class="wrapper">
           <router-link to="/">
@@ -44,16 +45,21 @@
       </section>
     <app-podservices title="Подкатегории" :objectPage="podCategories"></app-podservices>
     <app-feedback></app-feedback>
+    <app-footer></app-footer>
   </div>
 </template>
 
 <script>
 import Feedback from "@/components/partials/Feedback";
 import Podservices from "@/components/Services/Podcategory";
+import Navbar from "@/components/Navbar.vue";
+import Footer from "@/components/Footer.vue";
 export default {
   components: {
     "app-feedback": Feedback,
-    "app-podservices": Podservices
+    "app-podservices": Podservices,
+    'app-navbar': Navbar,
+    'app-footer': Footer
   },
   computed: {
     podCategories () {

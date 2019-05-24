@@ -1,5 +1,6 @@
 <template>
   <div>
+      <app-navbar></app-navbar>
       <section class="serve_container about_container">
         <div class="wrapper">
           <router-link to="/">
@@ -46,16 +47,21 @@
       </section>
     <app-advantages color="about_advantages"></app-advantages>
     <app-feedback></app-feedback>
+      <app-footer></app-footer>
   </div>
 </template>
 
 <script>
 import Advantages from "@/components/partials/Advantages";
 import Feedback from "@/components/partials/Feedback";
+import Navbar from "@/components/Navbar.vue";
+import Footer from "@/components/Footer.vue";
 export default {
   components: {
     "app-advantages": Advantages,
-    "app-feedback": Feedback
+    "app-feedback": Feedback,
+    'app-navbar': Navbar,
+    'app-footer': Footer
   },
 }
 </script>

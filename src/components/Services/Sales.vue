@@ -1,17 +1,23 @@
 <template>
   <div>
+    <app-navbar></app-navbar>
     <app-podservices title="Акции" :objectPage="servicePromo"></app-podservices>
     <app-feedback></app-feedback>
+    <app-footer></app-footer>
   </div>
 </template>
 
 <script>
 import Feedback from "@/components/partials/Feedback";
 import Podservices from "@/components/Services/Podcategory";
+import Navbar from "@/components/Navbar.vue";
+import Footer from "@/components/Footer.vue";
 export default {
   components: {
     "app-feedback": Feedback,
-    "app-podservices": Podservices
+    "app-podservices": Podservices,
+    'app-footer': Footer,
+    'app-navbar': Navbar
   },
   computed: {
     servicePromo () {

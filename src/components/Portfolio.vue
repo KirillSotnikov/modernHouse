@@ -1,5 +1,6 @@
 <template>
   <div>
+    <app-navbar></app-navbar>
     <section class="serve_container portfolio_section">
         <div class="wrapper">
           <router-link to="/">
@@ -70,14 +71,19 @@
         <div class="shadow_container"></div>
       </section>
     <app-feedback></app-feedback>
+    <app-footer></app-footer>
   </div>
 </template>
 
 <script>
 import Feedback from "@/components/partials/Feedback";
+import Navbar from "@/components/Navbar.vue";
+import Footer from "@/components/Footer.vue";
 export default {
   components: {
-    "app-feedback": Feedback
+    "app-feedback": Feedback,
+    'app-navbar': Navbar,
+    'app-footer': Footer
   },
   computed: {
     portfolioList() {

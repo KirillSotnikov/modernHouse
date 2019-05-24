@@ -1,5 +1,6 @@
 <template>
     <div>
+      <app-navbar></app-navbar>
       <section class="serve_container work_page_container">
         <div class="wrapper">
           <router-link to="/portfolio">
@@ -112,6 +113,7 @@
         </div>
       </section>
       <app-feedback></app-feedback>
+      <app-footer></app-footer>
     </div>
 </template>
 
@@ -119,10 +121,14 @@
 import $ from "jquery"
 import Slick from 'vue-slick'
 import Feedback from "@/components/partials/Feedback";
+import Navbar from "@/components/Navbar.vue";
+import Footer from "@/components/Footer.vue";
 export default {
   components: { 
     Slick,
-    'app-feedback': Feedback
+    'app-feedback': Feedback,
+    'app-navbar': Navbar,
+    'app-footer': Footer
   },
   data () {
     return {

@@ -5,15 +5,19 @@ import services from './modules/services'
 import partners from './modules/partners'
 import advantages from './modules/advantages'
 import portfolio from './modules/portfolio'
+import user_help from './modules/user_help'
+import user from './user'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
-    common, 
+    common,
     services,
     partners,
     advantages,
-    portfolio
+    portfolio,
+    user_help,
+    user
   }
 })

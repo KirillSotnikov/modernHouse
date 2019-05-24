@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <img src="../assets/img/window.png" alt=""> -->
+    <app-navbar></app-navbar>
     <section class="main_slider">
       <div class="mouse_box">
         <div class="mouse_box_line"></div>
@@ -28,46 +28,6 @@
             </div>
           </div>
         </div>
-        <!-- <div
-          class="slide"
-          style="background:url('/static/img/main_slider1.d7da8ad.png') center/cover no-repeat"
-        >
-          <div
-            class="wrapper main_slider_container"
-            style="background:url('/static/img/main_slider1.d7da8ad.png') center/cover no-repeat"
-          >
-            <div class="main_slider_box">
-              <p class="main_slider_title">Окна и двери</p>
-              <p class="main_slider_text">
-                Не следует, однако забывать, что сложившаяся структура организации играет важную роль в формировании
-                дальнейших направлений развития.
-              </p>
-              <router-link to="/services">
-                <a class="main_slider_btn">Узнать больше</a>
-              </router-link>
-            </div>
-          </div>
-        </div>
-        <div
-          class="slide"
-          style="background:url('/static/img/main_slider1.d7da8ad.png') center/cover no-repeat"
-        >
-          <div
-            class="wrapper main_slider_container"
-            style="background:url('./static/img/main_slider1.d7da8ad.png') center/cover no-repeat"
-          >
-            <div class="main_slider_box">
-              <p class="main_slider_title">Окна и двери</p>
-              <p class="main_slider_text">
-                Не следует, однако забывать, что сложившаяся структура организации играет важную роль в формировании
-                дальнейших направлений развития.
-              </p>
-              <router-link to="/services">
-                <a class="main_slider_btn">Узнать больше</a>
-              </router-link>
-            </div>
-          </div>
-        </div> -->
       </slick>
     </section>
     <section class="services">
@@ -98,12 +58,15 @@
     <app-advantages></app-advantages>
     <app-partners></app-partners>
     <app-feedback></app-feedback>
+    <app-footer></app-footer>
   </div>
 </template>
 
 <script>
 import $ from "jquery";
 import Slick from "vue-slick";
+import Navbar from "@/components/Navbar.vue";
+import Footer from "@/components/Footer.vue";
 import Advantages from "@/components/partials/Advantages";
 import Feedback from "@/components/partials/Feedback";
 import Partners from "@/components/partials/Partners";
@@ -112,7 +75,9 @@ export default {
     Slick,
     "app-advantages": Advantages,
     "app-feedback": Feedback,
-    "app-partners": Partners
+    "app-partners": Partners,
+    'app-navbar': Navbar,
+    'app-footer': Footer
   },
   data() {
     return {
