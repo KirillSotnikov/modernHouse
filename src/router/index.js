@@ -11,6 +11,8 @@ import PodServices from '@/components/Services/PodServices'
 import Login from '@/components/admin/Auth/Login'
 import AdminServices from '@/components/admin/Services'
 import AdminPortfolio from '@/components/admin/Portfolio'
+import EditSetting from '@/components/admin/EditSetting'
+import NewService from '@/components/admin/AddService'
 
 import store from '../store'
 
@@ -63,10 +65,7 @@ export default new Router({
       path: '/admin',
       name: 'Admin',
       beforeEnter (to, from, next) {
-        console.log(store)
-        setTimeout(function () {
-          store.getters.checkUser ? next('/admin/services') : next('/admin/login')
-        }, 10)
+        store.getters.checkUser ? next('/admin/services') : next('/admin/login')
       }
     },
     {
@@ -77,12 +76,35 @@ export default new Router({
     {
       path: '/admin/services',
       name: 'Admin Services',
-      component: AdminServices
+      component: AdminServices,
+      // beforeEnter (to, from, next) {
+      //   store.getters.checkUser ? next() : next('/admin/login')
+      // }
     },
     {
       path: '/admin/portfolio',
       name: 'Admin Portfolio',
-      component: AdminPortfolio
+      component: AdminPortfolio,
+      // beforeEnter (to, from, next) {
+      //   store.getters.checkUser ? next() : next('/admin/login')
+      // }
+    },
+    {
+      path: '/admin/new-service',
+      name: 'New Service',
+      component: NewService,
+      // beforeEnter (to, from, next) {
+      //   store.getters.checkUser ? next() : next('/admin/login')
+      // }
+    },
+    {
+      path: '/admin/edit-setting/:id',
+      props: true,
+      name: 'Edit-Setting',
+      component: EditSetting,
+      // beforeEnter (to, from, next) {
+      //   store.getters.checkUser ? next() : next('/admin/login')
+      // }
     }
   ]
 })

@@ -1,64 +1,67 @@
 <template>
   <div>
-    <app-navbar></app-navbar>
-    <section class="main_slider">
-      <div class="mouse_box">
-        <div class="mouse_box_line"></div>
-        <img src="../assets/img/mouse_icon.png" alt class="mouse_box_icon">
-      </div>
-      <slick ref="slick" :options="mainSliderOptions">
-        <div
-          v-for="(service, index) in podCategories"
-          :key="index"
-          class="slide"
-          :style="service.backgroundStyle"
-        >
+    <app-navbar v-if="podCategories.length != 0"></app-navbar>
+    <div v-if="podCategories.length != 0">
+      <section class="main_slider">
+        <div class="mouse_box">
+          <div class="mouse_box_line"></div>
+          <img src="../assets/img/mouse_icon.png" alt class="mouse_box_icon">
+        </div>
+        <slick ref="slick" :options="mainSliderOptions">
           <div
-            class="wrapper main_slider_container"
-            style="background:url('/static/img/main_slider1.d7da8ad.png') center/cover no-repeat"
+            v-for="(service, index) in podCategories"
+            :key="index"
+            class="slide"
+            :style="service.backgroundStyle"
           >
-            <div class="main_slider_box">
-              <p class="main_slider_title">{{service.title}}</p>
-              <p class="main_slider_text">
-                {{service.description}}
-              </p>
-              <router-link :to="'/pod-services/' + service.id">
-                <a class="main_slider_btn">Узнать больше</a>
-              </router-link>
+            <div
+              class="wrapper main_slider_container"
+              style="background:url('/static/img/main_slider1.d7da8ad.png') center/cover no-repeat"
+            >
+              <div class="main_slider_box">
+                <p class="main_slider_title">{{service.title}}</p>
+                <p class="main_slider_text">
+                  {{service.description}}
+                </p>
+                <router-link :to="'/pod-services/' + service.id">
+                  <a class="main_slider_btn">Узнать больше</a>
+                </router-link>
+              </div>
+            </div>
+          </div>
+        </slick>
+      </section>
+      <section class="services">
+        <div class="wrapper">
+          <div class="services_title">Услуги</div>
+          <div class="services_container row">
+            <div 
+            class="services_container_box col-12 col-sm-6 col-lg-4" 
+            v-for="(service, index) in podCategories"
+            :key="index"
+            >
+              <a class="services_container_card">
+                <router-link :to="'/pod-services/' + service.id">
+                  <img :src="service.imgSrc" alt class="services_container_card_img">
+                  <p class="services_container_card_title">{{service.title}}</p>
+                  <div class="services_line"></div>
+                  <p
+                    class="services_container_card_text"
+                  >
+                    {{service.description}}
+                  </p>
+                </router-link>
+              </a>
             </div>
           </div>
         </div>
-      </slick>
-    </section>
-    <section class="services">
-      <div class="wrapper">
-        <div class="services_title">Услуги</div>
-        <div class="services_container row">
-          <div 
-          class="services_container_box col-12 col-sm-6 col-lg-4" 
-          v-for="(service, index) in podCategories"
-          :key="index"
-          >
-            <a class="services_container_card">
-              <router-link :to="'/pod-services/' + service.id">
-                <img :src="service.imgSrc" alt class="services_container_card_img">
-                <p class="services_container_card_title">{{service.title}}</p>
-                <div class="services_line"></div>
-                <p
-                  class="services_container_card_text"
-                >
-                  {{service.description}}
-                </p>
-              </router-link>
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-    <app-advantages></app-advantages>
-    <app-partners></app-partners>
-    <app-feedback></app-feedback>
-    <app-footer></app-footer>
+      </section>
+      <app-advantages></app-advantages>
+      <app-partners></app-partners>
+      <app-feedback></app-feedback>
+    </div>
+    <app-loader v-else></app-loader>
+    <app-footer v-if="podCategories.length != 0"></app-footer>
   </div>
 </template>
 
@@ -70,6 +73,7 @@ import Footer from "@/components/Footer.vue";
 import Advantages from "@/components/partials/Advantages";
 import Feedback from "@/components/partials/Feedback";
 import Partners from "@/components/partials/Partners";
+import Loader from "@/components/partials/Loader";
 export default {
   components: {
     Slick,
@@ -77,7 +81,8 @@ export default {
     "app-feedback": Feedback,
     "app-partners": Partners,
     'app-navbar': Navbar,
-    'app-footer': Footer
+    'app-footer': Footer,
+    'app-loader': Loader
   },
   data() {
     return {
@@ -249,6 +254,11 @@ body.nonScroll {
     font-family: "Museo Sans Cyrl -300";
     font-size: 24px;
     margin-bottom: 70px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
   }
   &_btn {
     opacity: 0.9;
@@ -313,6 +323,11 @@ body.nonScroll {
         color: #3d3d3d;
         font-family: "Museo Sans Cyrl -300";
         font-size: 16px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 5;
       }
     }
   }
@@ -335,6 +350,11 @@ body.nonScroll {
     // font-size: 18px;
     text-align: center;
     margin-bottom: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
   }
   .main_slider_btn {
     padding: 10px 20px;

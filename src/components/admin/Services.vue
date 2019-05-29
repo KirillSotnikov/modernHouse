@@ -13,7 +13,10 @@
             <th scope="col">Promo</th>
             <th scope="col">Advantages</th>
             <th scope="col">Gallery</th>
-            <th scope="col"><button @click="openServiceModal" type="button" class="btn btn-outline-dark">Add New</button></th>
+            <th scope="col">
+              <router-link class="btn btn-outline-dark" to="/admin/new-service">Add New</router-link>
+              <!-- <button @click="openServiceModal" type="button" class="btn btn-outline-dark">Add New</button> -->
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -39,21 +42,22 @@
               <img width="100px" src="/static/img/main_slider1.d7da8ad.png" alt=""> -->
             </td>
             <td>
-              <button type="button" class="btn btn-outline-dark mb-2" :data-service="service.id">Edit</button>
-              <button type="button" class="btn btn-outline-dark mb-2">Delete</button>
-              <router-link class="btn btn-outline-dark" :to="'/pod-services/' + service.id">Show</router-link>
+              <router-link class="btn btn-outline-dark mb-2 d-block" :to="'/admin/edit-setting/' + service.id">Edit</router-link>
+              <!-- <button type="button" class="btn btn-outline-dark mb-2" :data-service="service.id">Edit</button> -->
+              <button type="button" class="btn btn-outline-dark mb-2 d-block" :data-serviceId="service.id" @click="removeService(service.id)">Delete</button>
+              <router-link class="btn btn-outline-dark d-block" :to="'/pod-services/' + service.id">Show</router-link>
               <!-- <button type="button" class="btn btn-outline-dark">Show</button> -->
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <edit-setting :activeClass="activeClass" :closeMethod="closeServiceModal"></edit-setting>
+    <!-- <edit-setting :activeClass="activeClass" :closeMethod="closeServiceModal"></edit-setting> -->
   </div>
 </template>
 <script>
 import AdminNavbar from '@/components/admin/AdminNavbar';
-import EditSetting from '@/components/admin/EditSetting'
+// import EditSetting from '@/components/admin/EditSetting'
 export default {
   data () {
     return {
@@ -61,8 +65,8 @@ export default {
     }
   },
   components: {
-    'admin-navbar': AdminNavbar,
-    'edit-setting': EditSetting
+    'admin-navbar': AdminNavbar
+    // 'edit-setting': EditSetting
   },
   methods: {
     openServiceModal () {
@@ -70,6 +74,11 @@ export default {
     },
     closeServiceModal () {
       this.activeClass = false
+    },
+    removeService (id) {
+      console.log(id)
+      this.$store.dispatch('removeService', id)
+      this.$store.dispatch('fetchProducts')
     }
   },
   computed: {

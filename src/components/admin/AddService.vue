@@ -1,16 +1,28 @@
 <template>
 <div>
   <admin-navbar></admin-navbar>
-  <div v-if="service" class="container form_container mt-5">
-    <h2 class="h2">Edit Service</h2>
-    <form>
+  <div class="container form_container mt-5">
+    <h2 class="h2">Add New</h2>
+    <form @submit.prevent="createService">
       <div class="form-group">
         <label for="Title">Title</label>
-        <input type="text" class="form-control" v-model="service.title" id="Title" aria-describedby="emailHelp">
+        <input type="text" 
+          class="form-control" 
+          id="Title"
+          v-model="title"
+          :class="{ error: $v.title.$error }"
+          @change="$v.title.$touch()" 
+          aria-describedby="emailHelp">
       </div>
       <div class="form-group">
         <label for="Description">Description</label>
-        <textarea type="text" class="form-control" v-model="service.description" id="Description"></textarea>
+        <textarea type="text" 
+        class="form-control" 
+        v-model="description"
+        :class="{ error: $v.description.$error }"
+        @change="$v.description.$touch()" 
+        aria-describedby="emailHelp"
+        id="Description"></textarea>
       </div>
       <div class="d-flex flex-column align-items-start mb-3">
         <a class="btn btn-success color-white" @click="upload">
@@ -26,7 +38,7 @@
         <img class="mt-3" :src="imgSrc" height="200px" v-if="imgSrc">
       </div>
       <div class="form-check mb-3">
-        <input type="checkbox" :checked="service.promo" class="form-check-input" id="exampleCheck1">
+        <input type="checkbox" class="form-check-input" v-model="promo" id="exampleCheck1">
         <label class="form-check-label" for="exampleCheck1">Is it Promo?</label>
       </div>
 
@@ -34,7 +46,7 @@
         <label>Advantages</label>
         <i class="fas fa-plus" @click="addAdvantage"></i>
         <div class="input_box">
-          <input type="text" v-for="(advantage, index) in service.advantages" :key="index" v-model="advantage.title" class="form-control w-50 mt-2">
+          <input type="text" class="form-control advantageInput w-50 mt-2">
         </div>
       </div>
       <div class="form-group mb-0">
@@ -64,28 +76,37 @@
         @change="previewFiles" multiple>
       </div>
       <hr>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary">Save</button>
     </form>
   </div>
-  <app-loader v-else></app-loader>
 </div>
 </template>
 
 <script>
 import $ from 'jquery'
 import AdminNavbar from '@/components/admin/AdminNavbar';
-import Loader from '@/components/partials/Loader';
+import { required } from 'vuelidate/lib/validators'
 export default {
   components: {
-    'admin-navbar': AdminNavbar,
-    'app-loader': Loader
+    'admin-navbar': AdminNavbar
   },
   data () {
     return {
       image: null,
       imgSrc: '',
       files: [],
-      imgSrc: ''
+      imgSrc: '',
+      title: '',
+      description: '',
+      promo: false,
+    }
+  },
+  validations: {
+    title: {
+      required
+    },
+    description: {
+      required
     }
   },
   props: ['id'],
@@ -119,6 +140,42 @@ export default {
     });
   },
   methods: {
+    createService() {
+      this.$v.$touch()
+      if (this.$v.$invalid) {
+        this.submitStatus = 'ERROR'
+      } else {
+        const user = {
+          email: this.email,
+          password: this.password
+        }
+        let advantageArr = document.querySelectorAll('.advantageInput')
+        let advantages = []
+        advantageArr.forEach(element => {
+          // console.log(element.value)
+          let ArrItem = {title: element.value}
+          console.log(ArrItem)
+          advantages.push(ArrItem)
+        })
+        const newService = {
+          title: this.title,
+          description: this.description,
+          image: this.image,
+          promo: this.promo,
+          advantages: advantages
+        }
+        console.log(newService)
+        this.$store.dispatch('createService', newService)
+          .then(() => {
+            this.$router.push('/admin/services')
+            // this.$store.dispatch('checkedMenu')
+          })
+          .catch(err => {
+            // alert(err.message)
+            this.submitStatus = err.message
+          })
+      }
+    },
     previewFiles() {
       // if ($("#file")[0].files.length > 5) {
       //   alert("You can select only 5 images");
@@ -145,6 +202,7 @@ export default {
       inputItem.classList.add('form-control')
       inputItem.classList.add('mt-2')
       inputItem.classList.add('w-50')
+      inputItem.classList.add('advantageInput')
       let advantageArr = document.getElementsByClassName('input_box')[0]
       // console.log(inputItem)
       advantageArr.appendChild(inputItem)
@@ -184,6 +242,9 @@ export default {
   }
 }
 // --------------
+.form-control.error{
+  border: 1px solid red;
+}
   .form_container{
     border: 1px solid #242424;
         max-width: 800px;

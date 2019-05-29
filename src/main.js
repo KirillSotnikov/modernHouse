@@ -30,5 +30,6 @@ new Vue({
     }
     // Initialize Firebase
     fb.initializeApp(firebaseConfig)
+    store.dispatch('fetchProducts')
   }
 })
