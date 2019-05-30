@@ -7,7 +7,7 @@
           <div class="mouse_box_line"></div>
           <img src="../assets/img/mouse_icon.png" alt class="mouse_box_icon">
         </div>
-        <slick ref="slick" :options="mainSliderOptions">
+        <slick ref="slick" :options="mainSliderOptions" @init="subStringFunc">
           <div
             v-for="(service, index) in podCategories"
             :key="index"
@@ -129,6 +129,13 @@ export default {
       this.$nextTick(() => {
         this.$refs.slick.reSlick();
       });
+    },
+    subStringFunc() {
+      let sliderText = document.querySelectorAll('.main_slider_text');
+      sliderText.forEach(element => {
+        let text = element.innerText.substring(0, 175)
+        element.innerText = text + '...'
+      })
     }
   }
 };
@@ -258,7 +265,7 @@ body.nonScroll {
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 5;
+    // -webkit-line-clamp: 5;
   }
   &_btn {
     opacity: 0.9;
@@ -354,7 +361,7 @@ body.nonScroll {
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4;
+    // -webkit-line-clamp: 4;
   }
   .main_slider_btn {
     padding: 10px 20px;

@@ -149,11 +149,21 @@ export default {
     },
     loadProducts (state, payload) {
       state.podCategories = payload
+    },
+    updateService (state, {title, description, promo, advantages, id}) {
+      const service = state.podCategories.find(a => {
+        return a.id === id
+      })
+      service.title = title
+      service.description = description
+      service.promo = promo
+      service.advantages = advantages
     }
   },
   actions: {
     async fetchProducts ({commit}) {
       const resultProducts = []
+
       try {
         const serviceVal = await fb.database().ref('services').once('value')
         const services = serviceVal.val()
@@ -199,6 +209,27 @@ export default {
       } catch (error) {
         alert(error.message)
         // throw error
+      }
+    },
+    async updateService ({commit}, {title, description, promo, advantages, id}) {
+      // console.log(promo)
+      try {
+        await fb.database().ref('services').child(id).update({
+          title,
+          description,
+          promo,
+          advantages
+        })
+        commit('updateService', {
+          title,
+          description,
+          promo,
+          advantages,
+          id
+        })
+      } catch (error) {
+        alert(error.message)
+        throw error
       }
     },
     async removeService ({commit, getters}, id) {

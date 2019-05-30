@@ -1,7 +1,7 @@
 <template>
   <div>
     <admin-navbar></admin-navbar>
-    <div class="container services_container">
+    <div v-if="podCategories.length != 0" class="container services_container">
       <h4 class="h4">Services</h4>
       <table class="table">
         <thead>
@@ -23,7 +23,7 @@
           <tr v-for="(service, index) in podCategories" :key="index">
             <th scope="row">{{service.id}}</th>
             <td>{{service.title}}</td>
-            <td class="table_description">{{service.description}}</td>
+            <td class="table_description" :class="{active: isActive}" @click="isActive = !isActive">{{service.description}}</td>
             <td><img :src="service.imgSrc" alt=""></td>
             <td><input type="checkbox" :checked="service.promo" disabled></td>
             <td>
@@ -52,20 +52,23 @@
         </tbody>
       </table>
     </div>
-    <!-- <edit-setting :activeClass="activeClass" :closeMethod="closeServiceModal"></edit-setting> -->
+    <app-loader v-else></app-loader>
   </div>
 </template>
 <script>
 import AdminNavbar from '@/components/admin/AdminNavbar';
+import Loader from '@/components/partials/Loader';
 // import EditSetting from '@/components/admin/EditSetting'
 export default {
   data () {
     return {
-      activeClass: false
+      activeClass: false,
+      isActive: false
     }
   },
   components: {
-    'admin-navbar': AdminNavbar
+    'admin-navbar': AdminNavbar,
+    'app-loader': Loader
     // 'edit-setting': EditSetting
   },
   methods: {
@@ -100,6 +103,20 @@ export default {
   }
   .table_description{
     width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    line-clamp: 5;
+    -webkit-line-clamp: 5;
+    padding-bottom: 0;
+    cursor: s-resize;
+    &.active{
+      padding-bottom: 10px !important;
+      line-clamp: unset;
+      -webkit-line-clamp: unset;
+    cursor: n-resize;
+    }
   }
   .table td, .table th{
     // border-top: none;

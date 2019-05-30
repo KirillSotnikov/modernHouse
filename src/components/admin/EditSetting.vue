@@ -6,11 +6,11 @@
     <form>
       <div class="form-group">
         <label for="Title">Title</label>
-        <input type="text" class="form-control" v-model="service.title" id="Title" aria-describedby="emailHelp">
+        <input type="text" class="form-control" v-model="edited.title" id="Title" aria-describedby="emailHelp">
       </div>
       <div class="form-group">
         <label for="Description">Description</label>
-        <textarea type="text" class="form-control" v-model="service.description" id="Description"></textarea>
+        <textarea type="text" class="form-control" v-model="edited.description" id="Description"></textarea>
       </div>
       <div class="d-flex flex-column align-items-start mb-3">
         <a class="btn btn-success color-white" @click="upload">
@@ -23,10 +23,10 @@
         type="file" 
         style="display: none" 
         accept="image/*">
-        <img class="mt-3" :src="imgSrc" height="200px" v-if="imgSrc">
+        <img class="mt-3 fileImgInput" :src="edited.imgSrc" height="200px" v-if="edited.imgSrc">
       </div>
       <div class="form-check mb-3">
-        <input type="checkbox" :checked="service.promo" class="form-check-input" id="exampleCheck1">
+        <input type="checkbox" :checked="edited.promo" @click="promoChange" class="form-check-input" id="exampleCheck1">
         <label class="form-check-label" for="exampleCheck1">Is it Promo?</label>
       </div>
 
@@ -34,7 +34,7 @@
         <label>Advantages</label>
         <i class="fas fa-plus" @click="addAdvantage"></i>
         <div class="input_box">
-          <input type="text" v-for="(advantage, index) in service.advantages" :key="index" v-model="advantage.title" class="form-control w-50 mt-2">
+          <input type="text" v-for="(advantage, index) in edited.advantages" :key="index" v-model="advantage.title" class="form-control w-50 mt-2">
         </div>
       </div>
       <div class="form-group mb-0">
@@ -64,7 +64,7 @@
         @change="previewFiles" multiple>
       </div>
       <hr>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <span @click="onSave" class="btn btn-primary">Submit</span>
     </form>
   </div>
   <app-loader v-else></app-loader>
@@ -84,8 +84,7 @@ export default {
     return {
       image: null,
       imgSrc: '',
-      files: [],
-      imgSrc: ''
+      files: []
     }
   },
   props: ['id'],
@@ -93,6 +92,16 @@ export default {
     service() {
       const id = this.id
       return this.$store.getters.serviceById(id)
+    },
+    edited() {
+      console.log(this.service.imgSrc)
+      return {
+        title: this.service.title,
+        description: this.service.description,
+        promo: this.service.promo,
+        advantages: this.service.advantages,
+        imgSrc: this.service.imgSrc
+      }
     }
   },
   mounted() {
@@ -119,6 +128,26 @@ export default {
     });
   },
   methods: {
+    promoChange () {
+      this.edited.promo = !this.edited.promo
+    },
+    onSave () {
+      if(this.edited.title != '' && this.edited.description != '') {
+        console.log(this.edited.promo)
+        this.$store.dispatch('updateService', {
+          title: this.edited.title,
+          description: this.edited.description,
+          promo: this.edited.promo,
+          advantages: this.edited.advantages,
+          id: this.service.id
+        })
+          .then(() => {
+            this.$router.push('/admin/services')
+          })
+      } else {
+        alert('Please, fill the form correctly')
+      }
+    },
     previewFiles() {
       // if ($("#file")[0].files.length > 5) {
       //   alert("You can select only 5 images");
@@ -135,6 +164,8 @@ export default {
         const reader = new FileReader()
         reader.onload = e => {
           this.imgSrc = reader.result
+          let img = document.querySelectorAll('.fileImgInput')[0]
+          img.setAttribute('src', this.imgSrc)
         }
         reader.readAsDataURL(file)
         this.image = file
@@ -222,8 +253,12 @@ export default {
     }
     .btn-success{
       color: #fff !important;
+      cursor: pointer;
       &:hover{
         color: #fff;
       }
+    }
+    .btn{
+      cursor: pointer;
     }
 </style>

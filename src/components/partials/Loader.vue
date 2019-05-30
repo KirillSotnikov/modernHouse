@@ -124,4 +124,25 @@ $colors: #3d3d3d, #910e0e, #fdf4f5;
     transform: translate3d(-$size*.5, -$size, 0) scaleY(0.01);
   }
 }
+
+@media screen and (min-width: 768px){
+  .container{
+    left: 0;
+  }
+}
+@media screen and (min-width: 1200px){
+  .container{
+    left: 10%;
+  }
+}
+@media screen and (min-width: 1600px) {
+  .container{
+    left: 20%;
+  }
+}
+@media screen and (max-width: 575px) {
+  .container{
+    left: -5%;
+  }
+}
 </style>

@@ -29,6 +29,7 @@ new Vue({
       appId: '1:338914232127:web:350396570527fd0b'
     }
     // Initialize Firebase
+
     fb.initializeApp(firebaseConfig)
     store.dispatch('fetchProducts')
   }
