@@ -26,7 +26,7 @@
         <img class="mt-3 fileImgInput" :src="edited.imgSrc" height="200px" v-if="edited.imgSrc">
       </div>
       <div class="form-check mb-3">
-        <input type="checkbox" :checked="edited.promo" @click="promoChange" class="form-check-input" id="exampleCheck1">
+        <input type="checkbox" :checked="edited.promo" @click="promoChange  " class="form-check-input" id="exampleCheck1">
         <label class="form-check-label" for="exampleCheck1">Is it Promo?</label>
       </div>
 

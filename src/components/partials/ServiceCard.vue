@@ -32,8 +32,8 @@ export default {
 </script>
 
 <style lang="scss">
-.sales_card{
-  min-height: 80%
-}
+// .sales_card{
+//   min-height: 80%
+// }
 </style>
 

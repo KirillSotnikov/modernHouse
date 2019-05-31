@@ -69,6 +69,7 @@ export default {
         background: #fff;
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.13);
         transition: all .4s ease-out;
+        max-height: 143px;
         &_title{
             opacity: 0.9;
             color: #3d3d3d;
@@ -84,6 +85,12 @@ export default {
             font-size: 16px;
             padding: 15px;
             width: 57%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            line-clamp: 5;
+            -webkit-line-clamp: 5;
         }
         .box{
             width: 43%;

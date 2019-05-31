@@ -1,12 +1,13 @@
-import * as fb from 'firebase'
+import fb from 'firebase'
 
 class Service {
-  constructor (title, description, imgSrc = '', promo = false, advantages, id = null) {
+  constructor (title, description, imgSrc = '', promo = false, advantages, gallery, id = null) {
     this.title = title
     this.description = description
     this.imgSrc = imgSrc
     this.promo = promo
     this.advantages = advantages
+    this.gallery = gallery
     this.id = id
   }
 }
@@ -145,6 +146,7 @@ export default {
   },
   mutations: {
     createService (state, payload) {
+      console.log(payload)
       state.podCategories.push(payload)
     },
     loadProducts (state, payload) {
@@ -182,29 +184,44 @@ export default {
           commit('loadProducts', resultProducts)
         })
       } catch (error) {
-        alert(error.message)
+        // alert(error.message)
         throw error
       }
     },
     async createService ({commit, getters}, payload) {
       const image = payload.image
+      const gallery = payload.gallery
+      let gallerySrc = []
+      function setImageStorage (array, service) {
+        array.forEach(async (el, i) => {
+          const imageExt = el.name.slice(el.name.lastIndexOf('.'))
+          const fileData = await fb.storage().ref(`services/${service.key}/image${i}${imageExt}`).put(el)
+          const img = await fb.storage().ref().child(fileData.ref.fullPath).getDownloadURL()
+          gallerySrc.push({img: img})
+        })
+      }
       try {
         const newService = new Service(
           payload.title,
           payload.description,
           '',
           payload.promo,
-          payload.advantages
+          payload.advantages,
+          payload.gallery
         )
+        console.log(newService.gallery)
         const service = await fb.database().ref('services').push(newService)
         const imageExt = image.name.slice(image.name.lastIndexOf('.'))
-        const fileData = await fb.storage().ref(`services/${service.key}.${imageExt}`).put(image)
+        const fileData = await fb.storage().ref(`services/${service.key}/main${imageExt}`).put(image)
         const imgSrc = await fb.storage().ref().child(fileData.ref.fullPath).getDownloadURL()
         await fb.database().ref('services').child(service.key).update({imgSrc})
+        await setImageStorage(gallery, service)
+        await fb.database().ref('services').child(service.key).update({gallery: gallerySrc})
         commit('createService', {
           ...newService,
           id: service.key,
-          imgSrc
+          imgSrc,
+          gallery: gallerySrc
         })
       } catch (error) {
         alert(error.message)

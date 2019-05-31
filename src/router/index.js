@@ -55,7 +55,7 @@ export default new Router({
     {
       path: '/pod-services/:id',
       props: true,
-      name: 'Portfolio',
+      name: 'Podservice',
       component: PodServices
     },
 
@@ -70,13 +70,13 @@ export default new Router({
     },
     {
       path: '/admin/login',
-      name: 'Admin',
+      name: 'Admin Login',
       component: Login
     },
     {
       path: '/admin/services',
       name: 'Admin Services',
-      component: AdminServices,
+      component: AdminServices
       // beforeEnter (to, from, next) {
       //   store.getters.checkUser ? next() : next('/admin/login')
       // }
@@ -84,7 +84,7 @@ export default new Router({
     {
       path: '/admin/portfolio',
       name: 'Admin Portfolio',
-      component: AdminPortfolio,
+      component: AdminPortfolio
       // beforeEnter (to, from, next) {
       //   store.getters.checkUser ? next() : next('/admin/login')
       // }
@@ -92,7 +92,7 @@ export default new Router({
     {
       path: '/admin/new-service',
       name: 'New Service',
-      component: NewService,
+      component: NewService
       // beforeEnter (to, from, next) {
       //   store.getters.checkUser ? next() : next('/admin/login')
       // }

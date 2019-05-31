@@ -1,7 +1,7 @@
 <template>
   <div>
     <admin-navbar></admin-navbar>
-    <div v-if="podCategories.length != 0" class="container services_container">
+    <div class="container services_container">
       <h4 class="h4">Services</h4>
       <table class="table">
         <thead>
@@ -19,7 +19,7 @@
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody v-if="this.podCategories.length != 0">
           <tr v-for="(service, index) in podCategories" :key="index">
             <th scope="row">{{service.id}}</th>
             <td>{{service.title}}</td>
@@ -50,9 +50,10 @@
             </td>
           </tr>
         </tbody>
+        <p v-else class="h5 mt-4 ml-2 mb-0">Data is not defined</p>
       </table>
     </div>
-    <app-loader v-else></app-loader>
+    <!-- <app-loader></app-loader> -->
   </div>
 </template>
 <script>
@@ -81,12 +82,18 @@ export default {
     removeService (id) {
       console.log(id)
       this.$store.dispatch('removeService', id)
-      this.$store.dispatch('fetchProducts')
+      document.location.reload()
     }
   },
   computed: {
     podCategories () {
-      return this.$store.getters.podCategories
+      // console.log(this.$store.getters.podCategories)
+      // if(this.$store.getters.podCategories.length == 0 ) {
+      //   return [{title: 'You have no services'}]
+      // } else {
+      //   this.$store.getters.podCategories
+      // }
+      return this.$store.getters.podCategories || [{title: 'Non services'}]
     },
   }
 }

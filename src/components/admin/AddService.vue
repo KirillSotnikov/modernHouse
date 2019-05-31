@@ -72,8 +72,9 @@
           <span data-default='Choose file'>Choose file</span>
           <input type="file">
         </label> -->
-        <input type="file" id="file" ref="myFiles" class="" 
-        @change="previewFiles" multiple>
+        <!-- <input type="file" id="file" ref="myFiles" class="" 
+        @change="previewFiles" multiple> -->
+        <input type="file" @change="previewFiles" name="imageFiles" id="imageFiles" multiple>
       </div>
       <hr>
       <button type="submit" class="btn btn-primary">Save</button>
@@ -99,6 +100,8 @@ export default {
       title: '',
       description: '',
       promo: false,
+      gallery: [],
+      galleryFiles: []
     }
   },
   validations: {
@@ -154,21 +157,25 @@ export default {
         advantageArr.forEach(element => {
           // console.log(element.value)
           let ArrItem = {title: element.value}
-          console.log(ArrItem)
+          // console.log(ArrItem)
           advantages.push(ArrItem)
         })
+        let imagesArr = document.getElementById('imageFiles')
+        let gallery = []
+        // console.log(imagesArr.value)
+
         const newService = {
           title: this.title,
           description: this.description,
           image: this.image,
           promo: this.promo,
-          advantages: advantages
+          advantages: advantages,
+          gallery: this.galleryFiles
         }
-        console.log(newService)
+        // console.log(newService)
         this.$store.dispatch('createService', newService)
           .then(() => {
             this.$router.push('/admin/services')
-            // this.$store.dispatch('checkedMenu')
           })
           .catch(err => {
             // alert(err.message)
@@ -176,13 +183,18 @@ export default {
           })
       }
     },
-    previewFiles() {
+    previewFiles(event) {
       // if ($("#file")[0].files.length > 5) {
       //   alert("You can select only 5 images");
       //   $('#file').val('')
       // } else {
-        this.files = this.$refs.myFiles.files
+        // this.files = this.$refs.myFiles.files
       // }
+      const files = event.target.files
+      for ( let i = 0; i < files.length; i++ ){
+        this.galleryFiles.push(files[i])
+      }
+      // console.log(this.galleryFiles) 
     },
     upload () {
       this.$refs.fileInput.click()
