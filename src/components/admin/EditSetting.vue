@@ -40,6 +40,9 @@
       <div class="form-group mb-0">
         <label>Gallery</label>
         <br>
+        <div class="galleryImages">
+          <img v-for="(img, index) in edited.gallery" :key="index" :src="img.img" style="width: 80px; margin: 5px 10px;">
+        </div>
         <!-- <label class='__lk-fileInput'>
           <span data-default='Choose file'>Choose file</span>
           <input type="file">
@@ -60,11 +63,12 @@
           <span data-default='Choose file'>Choose file</span>
           <input type="file">
         </label> -->
+        <br>
         <input type="file" id="file" ref="myFiles" class="" 
         @change="previewFiles" multiple>
       </div>
       <hr>
-      <span @click="onSave" class="btn btn-primary">Submit</span>
+      <span @click="onSave" class="btn btn-primary">{{submitText}}</span>
     </form>
   </div>
   <app-loader v-else></app-loader>
@@ -84,7 +88,9 @@ export default {
     return {
       image: null,
       imgSrc: '',
-      files: []
+      files: [],
+      galleryFiles: [],
+      submitText: 'Submit'
     }
   },
   props: ['id'],
@@ -94,12 +100,13 @@ export default {
       return this.$store.getters.serviceById(id)
     },
     edited() {
-      console.log(this.service.imgSrc)
+      // console.log(this.service.imgSrc)
       return {
         title: this.service.title,
         description: this.service.description,
         promo: this.service.promo,
         advantages: this.service.advantages,
+        gallery: this.service.gallery,
         imgSrc: this.service.imgSrc
       }
     }
@@ -134,17 +141,21 @@ export default {
     onSave () {
       if(this.edited.title != '' && this.edited.description != '') {
         console.log(this.edited.promo)
+        this.submitText = 'Loading...'
         this.$store.dispatch('updateService', {
           title: this.edited.title,
           description: this.edited.description,
           promo: this.edited.promo,
           advantages: this.edited.advantages,
+          imgSrc: this.image,
+          gallery: this.galleryFiles,
           id: this.service.id
         })
           .then(() => {
             this.$router.push('/admin/services')
           })
       } else {
+        this.submitText = 'Submit'
         alert('Please, fill the form correctly')
       }
     },
@@ -153,7 +164,12 @@ export default {
       //   alert("You can select only 5 images");
       //   $('#file').val('')
       // } else {
-        this.files = this.$refs.myFiles.files
+        const files = event.target.files
+        for ( let i = 0; i < files.length; i++ ){
+          this.galleryFiles.push(files[i])
+        }
+        let galleryImages = document.querySelector('.galleryImages')
+        galleryImages.style.display = 'none'
       // }
     },
     upload () {

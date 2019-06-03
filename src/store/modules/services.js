@@ -152,7 +152,7 @@ export default {
     loadProducts (state, payload) {
       state.podCategories = payload
     },
-    updateService (state, {title, description, promo, advantages, id}) {
+    updateService (state, {title, description, promo, advantages, imgSrc, gallery, id}) {
       const service = state.podCategories.find(a => {
         return a.id === id
       })
@@ -160,6 +160,8 @@ export default {
       service.description = description
       service.promo = promo
       service.advantages = advantages
+      service.imgSrc = imgSrc
+      service.gallery = gallery
     }
   },
   actions: {
@@ -178,6 +180,7 @@ export default {
               service.imgSrc,
               service.promo,
               service.advantages,
+              service.gallery,
               key
             )
           )
@@ -190,14 +193,18 @@ export default {
     },
     async createService ({commit, getters}, payload) {
       const image = payload.image
-      const gallery = payload.gallery
-      let gallerySrc = []
+      const gallerySrc = payload.gallery
+
+      const Promises = []
+
       function setImageStorage (array, service) {
         array.forEach(async (el, i) => {
-          const imageExt = el.name.slice(el.name.lastIndexOf('.'))
-          const fileData = await fb.storage().ref(`services/${service.key}/image${i}${imageExt}`).put(el)
-          const img = await fb.storage().ref().child(fileData.ref.fullPath).getDownloadURL()
-          gallerySrc.push({img: img})
+          Promises.push(new Promise(async (resolve, reject) => {
+            const imageExt = el.name.slice(el.name.lastIndexOf('.'))
+            const fileData = await fb.storage().ref(`services/${service.key}/image${i}${imageExt}`).put(el)
+            const img = await fb.storage().ref().child(fileData.ref.fullPath).getDownloadURL()
+            resolve({ img: img })
+          }))
         })
       }
       try {
@@ -207,41 +214,69 @@ export default {
           '',
           payload.promo,
           payload.advantages,
-          payload.gallery
+          [{ img: '1234' }]
         )
-        console.log(newService.gallery)
+
         const service = await fb.database().ref('services').push(newService)
+        await setImageStorage(gallerySrc, service)
+        const gallery = await Promise.all(Promises)
+        await fb.database().ref('services').child(service.key).update({ gallery })
+
         const imageExt = image.name.slice(image.name.lastIndexOf('.'))
         const fileData = await fb.storage().ref(`services/${service.key}/main${imageExt}`).put(image)
         const imgSrc = await fb.storage().ref().child(fileData.ref.fullPath).getDownloadURL()
+        
         await fb.database().ref('services').child(service.key).update({imgSrc})
-        await setImageStorage(gallery, service)
-        await fb.database().ref('services').child(service.key).update({gallery: gallerySrc})
         commit('createService', {
           ...newService,
           id: service.key,
           imgSrc,
-          gallery: gallerySrc
+          gallery
         })
       } catch (error) {
         alert(error.message)
         // throw error
       }
     },
-    async updateService ({commit}, {title, description, promo, advantages, id}) {
-      // console.log(promo)
+    async updateService ({commit}, {title, description, promo, advantages, imgSrc, gallery, id}) {
+      // console.log(imgSrc)
+      const image = imgSrc
+      const gallerySrc = gallery
+      const Promises = []
+
+      function setImageStorage (array, service) {
+        array.forEach(async (el, i) => {
+          // console.log(array)
+          Promises.push(new Promise(async (resolve, reject) => {
+            const imageExt = el.name.slice(el.name.lastIndexOf('.'))
+            const fileData = await fb.storage().ref(`services/${service}/image${i}${imageExt}`).put(el)
+            const img = await fb.storage().ref().child(fileData.ref.fullPath).getDownloadURL()
+            resolve({ img: img })
+          }))
+        })
+      }
       try {
+        const imageExt = image.name.slice(image.name.lastIndexOf('.'))
+        const fileData = await fb.storage().ref(`services/${id}/main${imageExt}`).put(image)
+        const imgSrc = await fb.storage().ref().child(fileData.ref.fullPath).getDownloadURL()
+        console.log(gallerySrc)
+        await setImageStorage(gallerySrc, id)
+        const gallery = await Promise.all(Promises)
         await fb.database().ref('services').child(id).update({
           title,
           description,
           promo,
-          advantages
+          advantages,
+          imgSrc,
+          gallery
         })
         commit('updateService', {
           title,
           description,
           promo,
           advantages,
+          imgSrc,
+          gallery,
           id
         })
       } catch (error) {
@@ -253,6 +288,7 @@ export default {
       console.log(id)
       try {
         await fb.database().ref('services').child(id).remove()
+        await fb.storage().ref('services').child(id).remove()
       } catch (error) {
         alert(error.message)
         throw error

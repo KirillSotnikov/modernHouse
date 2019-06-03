@@ -73,6 +73,8 @@ export default {
           .then(() => {
             console.log('Login!');
             this.submitStatus = 'OK'
+            window.localStorage.setItem('checkedUser', true)
+            window.location.reload()
             this.$router.push('/admin/services')
             // this.$store.dispatch('checkedMenu')
           })

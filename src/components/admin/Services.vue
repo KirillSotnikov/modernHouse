@@ -21,9 +21,9 @@
         </thead>
         <tbody v-if="this.podCategories.length != 0">
           <tr v-for="(service, index) in podCategories" :key="index">
-            <th scope="row">{{service.id}}</th>
+            <th scope="row">{{index + 1}}</th>
             <td>{{service.title}}</td>
-            <td class="table_description" :class="{active: isActive}" @click="isActive = !isActive">{{service.description}}</td>
+            <td class="table_description" :class="{active: isActive}">{{service.description}}</td>
             <td><img :src="service.imgSrc" alt=""></td>
             <td><input type="checkbox" :checked="service.promo" disabled></td>
             <td>
@@ -50,7 +50,6 @@
             </td>
           </tr>
         </tbody>
-        <p v-else class="h5 mt-4 ml-2 mb-0">Data is not defined</p>
       </table>
     </div>
     <!-- <app-loader></app-loader> -->
@@ -64,7 +63,7 @@ export default {
   data () {
     return {
       activeClass: false,
-      isActive: false
+      isActive: true
     }
   },
   components: {
@@ -93,7 +92,8 @@ export default {
       // } else {
       //   this.$store.getters.podCategories
       // }
-      return this.$store.getters.podCategories || [{title: 'Non services'}]
+      console.log(this.$store.getters.podCategories)
+      return this.$store.getters.podCategories
     },
   }
 }
@@ -110,20 +110,6 @@ export default {
   }
   .table_description{
     width: 250px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    line-clamp: 5;
-    -webkit-line-clamp: 5;
-    padding-bottom: 0;
-    cursor: s-resize;
-    &.active{
-      padding-bottom: 10px !important;
-      line-clamp: unset;
-      -webkit-line-clamp: unset;
-    cursor: n-resize;
-    }
   }
   .table td, .table th{
     // border-top: none;
@@ -137,7 +123,7 @@ export default {
         list-style: disc;
       }
       img{
-        width: 100px;
+        width: 50px;
         display: block;
         margin: 5px;
       }

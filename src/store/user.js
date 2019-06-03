@@ -33,7 +33,9 @@ export default {
       return state.user
     },
     checkUser (state) {
-      return state.user !== null
+      let LC_KEY = window.localStorage.getItem('checkedUser')
+      console.log(LC_KEY)
+      return LC_KEY
     }
   }
 }

@@ -65,46 +65,55 @@ export default new Router({
       path: '/admin',
       name: 'Admin',
       beforeEnter (to, from, next) {
-        store.getters.checkUser ? next('/admin/services') : next('/admin/login')
+        let LC_KEY = JSON.parse(store.getters.checkUser)
+        LC_KEY ? next('/admin/services') : next('/admin/login')
       }
     },
     {
       path: '/admin/login',
       name: 'Admin Login',
-      component: Login
+      component: Login,
+      beforeEnter (to, from, next) {
+        let LC_KEY = JSON.parse(store.getters.checkUser)
+        LC_KEY ? next('/admin/services') : next()
+      }
     },
     {
       path: '/admin/services',
       name: 'Admin Services',
-      component: AdminServices
-      // beforeEnter (to, from, next) {
-      //   store.getters.checkUser ? next() : next('/admin/login')
-      // }
+      component: AdminServices,
+      beforeEnter (to, from, next) {
+        let LC_KEY = JSON.parse(store.getters.checkUser)
+        LC_KEY ? next() : next('/admin/login')
+      }
     },
     {
       path: '/admin/portfolio',
       name: 'Admin Portfolio',
-      component: AdminPortfolio
-      // beforeEnter (to, from, next) {
-      //   store.getters.checkUser ? next() : next('/admin/login')
-      // }
+      component: AdminPortfolio,
+      beforeEnter (to, from, next) {
+        let LC_KEY = JSON.parse(store.getters.checkUser)
+        LC_KEY ? next() : next('/admin/login')
+      }
     },
     {
       path: '/admin/new-service',
       name: 'New Service',
-      component: NewService
-      // beforeEnter (to, from, next) {
-      //   store.getters.checkUser ? next() : next('/admin/login')
-      // }
+      component: NewService,
+      beforeEnter (to, from, next) {
+        let LC_KEY = JSON.parse(store.getters.checkUser)
+        LC_KEY ? next() : next('/admin/login')
+      }
     },
     {
       path: '/admin/edit-setting/:id',
       props: true,
       name: 'Edit-Setting',
       component: EditSetting,
-      // beforeEnter (to, from, next) {
-      //   store.getters.checkUser ? next() : next('/admin/login')
-      // }
+      beforeEnter (to, from, next) {
+        let LC_KEY = JSON.parse(store.getters.checkUser)
+        LC_KEY ? next() : next('/admin/login')
+      }
     }
   ]
 })

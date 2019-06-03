@@ -27,6 +27,8 @@ export default {
   methods: {
     logOutUser() {
       this.$store.dispatch('logOutUser')
+      window.localStorage.setItem('checkedUser', false)
+      window.location.reload()
       this.$router.push('/admin')
     }
   }

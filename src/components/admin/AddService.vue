@@ -77,7 +77,7 @@
         <input type="file" @change="previewFiles" name="imageFiles" id="imageFiles" multiple>
       </div>
       <hr>
-      <button type="submit" class="btn btn-primary">Save</button>
+      <button type="submit" class="btn btn-primary">{{saveText}}</button>
     </form>
   </div>
 </div>
@@ -101,7 +101,8 @@ export default {
       description: '',
       promo: false,
       gallery: [],
-      galleryFiles: []
+      galleryFiles: [],
+      saveText: 'Save'
     }
   },
   validations: {
@@ -163,7 +164,7 @@ export default {
         let imagesArr = document.getElementById('imageFiles')
         let gallery = []
         // console.log(imagesArr.value)
-
+        this.saveText = 'Loading...'
         const newService = {
           title: this.title,
           description: this.description,
@@ -179,6 +180,7 @@ export default {
           })
           .catch(err => {
             // alert(err.message)
+            this.saveText = 'Save'
             this.submitStatus = err.message
           })
       }
@@ -209,15 +211,9 @@ export default {
         this.image = file
     },
     addAdvantage () {
-      let inputItem = document.createElement('input');
-      inputItem.setAttribute('type', 'text')
-      inputItem.classList.add('form-control')
-      inputItem.classList.add('mt-2')
-      inputItem.classList.add('w-50')
-      inputItem.classList.add('advantageInput')
       let advantageArr = document.getElementsByClassName('input_box')[0]
-      // console.log(inputItem)
-      advantageArr.appendChild(inputItem)
+      let inputItem = '<input type="text" class="form-control advantageInput w-50 mt-2">'
+      advantageArr.appendChild($.parseHTML( inputItem )[0])
     }
   }
 }
