@@ -13,6 +13,8 @@ import AdminServices from '@/components/admin/Services'
 import AdminPortfolio from '@/components/admin/Portfolio'
 import EditSetting from '@/components/admin/EditSetting'
 import NewService from '@/components/admin/AddService'
+import EditPortfolio from '@/components/admin/EditPortfolio'
+import NewPortfolio from '@/components/admin/AddPortfolio'
 
 import store from '../store'
 
@@ -110,6 +112,25 @@ export default new Router({
       props: true,
       name: 'Edit-Setting',
       component: EditSetting,
+      beforeEnter (to, from, next) {
+        let LC_KEY = JSON.parse(store.getters.checkUser)
+        LC_KEY ? next() : next('/admin/login')
+      }
+    },
+    {
+      path: '/admin/new-portfolio',
+      name: 'New Portfolio',
+      component: NewPortfolio,
+      beforeEnter (to, from, next) {
+        let LC_KEY = JSON.parse(store.getters.checkUser)
+        LC_KEY ? next() : next('/admin/login')
+      }
+    },
+    {
+      path: '/admin/edit-portfolio/:id',
+      props: true,
+      name: 'Edit-Portfolio',
+      component: EditPortfolio,
       beforeEnter (to, from, next) {
         let LC_KEY = JSON.parse(store.getters.checkUser)
         LC_KEY ? next() : next('/admin/login')

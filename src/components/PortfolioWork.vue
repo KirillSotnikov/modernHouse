@@ -1,7 +1,7 @@
 <template>
     <div>
-      <app-navbar></app-navbar>
-      <section class="serve_container work_page_container">
+      <app-navbar v-if="portfolio"></app-navbar>
+      <section v-if="portfolio" class="serve_container work_page_container">
         <div class="wrapper">
           <router-link to="/portfolio">
             <a class="arrow_back">
@@ -30,10 +30,22 @@
               <input type="radio" name="slider" id="s3" />
               <input type="radio" name="slider" id="s4" />
               <input type="radio" name="slider" id="s5" />
-              <label for="s1" id="slide1">
+              <label v-if="portfolio.gallery[0]" for="s1" id="slide1">
                 <img :src="portfolio.gallery[0].img" alt="" class="slider_image" />
               </label>
-              <label for="s2" id="slide2">
+              <label v-if="portfolio.gallery[1]" for="s2" id="slide2">
+                <img :src="portfolio.gallery[1].img" alt="" class="slider_image" />
+              </label>
+              <label v-if="portfolio.gallery[2]" for="s3" id="slide3">
+                <img :src="portfolio.gallery[2].img" alt="" class="slider_image" />
+              </label>
+              <label v-if="portfolio.gallery[3]" for="s4" id="slide4">
+                <img :src="portfolio.gallery[3].img" alt="" class="slider_image" />
+              </label>
+              <label v-if="portfolio.gallery[4]" for="s5" id="slide5">
+                <img :src="portfolio.gallery[4].img" alt="" class="slider_image" />
+              </label>
+              <!-- <label for="s2" id="slide2">
                 <img :src="portfolio.gallery[1].img" alt="" class="slider_image" />
               </label>
               <label for="s3" id="slide3">
@@ -44,7 +56,7 @@
               </label>
               <label for="s5" id="slide5">
                 <img :src="portfolio.gallery[4].img" alt="" class="slider_image" />
-              </label>
+              </label> -->
             </div>
             <div class="mobile_slider d-block d-sm-none">
               <slick ref="slick" :options="workPortfolioOptions">
@@ -92,7 +104,7 @@
           </div>
         </div>
       </section>
-      <section class="about_description">
+      <section v-if="portfolio" class="about_description">
         <div class="wrapper">
           <p class="about_description_title">{{portfolio.title}}</p>
           <p class="about_description_text">
@@ -112,8 +124,9 @@
           </p>
         </div>
       </section>
-      <app-feedback></app-feedback>
-      <app-footer></app-footer>
+      <app-feedback v-if="portfolio"></app-feedback>
+      <app-loader v-else></app-loader>
+      <app-footer v-if="portfolio"></app-footer>
     </div>
 </template>
 
@@ -123,12 +136,14 @@ import Slick from 'vue-slick'
 import Feedback from "@/components/partials/Feedback";
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
+import Loader from "@/components/partials/Loader";
 export default {
   components: { 
     Slick,
     'app-feedback': Feedback,
     'app-navbar': Navbar,
-    'app-footer': Footer
+    'app-footer': Footer,
+    'app-loader': Loader
   },
   data () {
     return {

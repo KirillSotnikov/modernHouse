@@ -79,7 +79,7 @@ export default {
       this.activeClass = false
     },
     removeService (id) {
-      console.log(id)
+      // console.log(id)
       this.$store.dispatch('removeService', id)
       document.location.reload()
     }
@@ -92,7 +92,7 @@ export default {
       // } else {
       //   this.$store.getters.podCategories
       // }
-      console.log(this.$store.getters.podCategories)
+      // console.log(this.$store.getters.podCategories)
       return this.$store.getters.podCategories
     },
   }

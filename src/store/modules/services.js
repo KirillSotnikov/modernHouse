@@ -1,4 +1,4 @@
-import fb from 'firebase'
+import fb from 'firebase/app'
 
 class Service {
   constructor (title, description, imgSrc = '', promo = false, advantages, gallery, id = null) {
@@ -146,23 +146,39 @@ export default {
   },
   mutations: {
     createService (state, payload) {
-      console.log(payload)
+      // console.log(payload)
       state.podCategories.push(payload)
     },
     loadProducts (state, payload) {
       state.podCategories = payload
     },
-    updateService (state, {title, description, promo, advantages, imgSrc, gallery, id}) {
+    updateService (state, payload) {
       const service = state.podCategories.find(a => {
-        return a.id === id
+        return a.id === payload.id
       })
-      service.title = title
-      service.description = description
-      service.promo = promo
-      service.advantages = advantages
-      service.imgSrc = imgSrc
-      service.gallery = gallery
+      service.title = payload.title
+      service.description = payload.description
+      service.promo = payload.promo
+      service.advantages = payload.advantages
+      if (payload.imgSrc) {
+        // console.log(payload.imgSrc)
+        service.imgSrc = payload.imgSrc
+      }
+      if (payload.gallery) {
+        service.gallery = payload.gallery
+      }
     }
+    // updateService (state, {title, description, promo, advantages, imgSrc, gallery, id}) {
+    //   const service = state.podCategories.find(a => {
+    //     return a.id === id
+    //   })
+    //   service.title = title
+    //   service.description = description
+    //   service.promo = promo
+    //   service.advantages = advantages
+    //   service.imgSrc = imgSrc
+    //   service.gallery = gallery
+    // }
   },
   actions: {
     async fetchProducts ({commit}) {
@@ -170,6 +186,7 @@ export default {
 
       try {
         const serviceVal = await fb.database().ref('services').once('value')
+        // console.log(serviceVal.val())
         const services = serviceVal.val()
         Object.keys(services).forEach(key => {
           const service = services[key]
@@ -217,22 +234,26 @@ export default {
           [{ img: '1234' }]
         )
 
-        const service = await fb.database().ref('services').push(newService)
-        await setImageStorage(gallerySrc, service)
-        const gallery = await Promise.all(Promises)
-        await fb.database().ref('services').child(service.key).update({ gallery })
-
-        const imageExt = image.name.slice(image.name.lastIndexOf('.'))
-        const fileData = await fb.storage().ref(`services/${service.key}/main${imageExt}`).put(image)
-        const imgSrc = await fb.storage().ref().child(fileData.ref.fullPath).getDownloadURL()
-        
-        await fb.database().ref('services').child(service.key).update({imgSrc})
-        commit('createService', {
-          ...newService,
-          id: service.key,
-          imgSrc,
-          gallery
-        })
+        if (image === null) {
+          throw new Error('Main image is required')
+        } else {
+          const service = await fb.database().ref('services').push(newService)
+          await setImageStorage(gallerySrc, service)
+          const gallery = await Promise.all(Promises)
+          await fb.database().ref('services').child(service.key).update({ gallery })
+          
+          const imageExt = image.name.slice(image.name.lastIndexOf('.'))
+          const fileData = await fb.storage().ref(`services/${service.key}/main${imageExt}`).put(image)
+          const imgSrc = await fb.storage().ref().child(fileData.ref.fullPath).getDownloadURL()
+          
+          await fb.database().ref('services').child(service.key).update({imgSrc})
+          commit('createService', {
+            ...newService,
+            id: service.key,
+            imgSrc,
+            gallery
+          })
+        }
       } catch (error) {
         alert(error.message)
         // throw error
@@ -243,7 +264,8 @@ export default {
       const image = imgSrc
       const gallerySrc = gallery
       const Promises = []
-
+      // console.log(image)       NULL
+      // console.log(gallerySrc)  ARRAY(0)
       function setImageStorage (array, service) {
         array.forEach(async (el, i) => {
           // console.log(array)
@@ -256,36 +278,73 @@ export default {
         })
       }
       try {
-        const imageExt = image.name.slice(image.name.lastIndexOf('.'))
-        const fileData = await fb.storage().ref(`services/${id}/main${imageExt}`).put(image)
-        const imgSrc = await fb.storage().ref().child(fileData.ref.fullPath).getDownloadURL()
-        console.log(gallerySrc)
-        await setImageStorage(gallerySrc, id)
-        const gallery = await Promise.all(Promises)
-        await fb.database().ref('services').child(id).update({
-          title,
-          description,
-          promo,
-          advantages,
-          imgSrc,
-          gallery
-        })
-        commit('updateService', {
-          title,
-          description,
-          promo,
-          advantages,
-          imgSrc,
-          gallery,
-          id
-        })
+        let updateObject = {
+          title: title,
+          description: description,
+          promo: promo,
+          advantages: advantages
+        }
+        if (image === null && gallerySrc.length === 0) {
+          // console.log('Not image and not gallery')
+          await fb.database().ref('services').child(id).update(updateObject)
+          commit('updateService', {
+            ...updateObject,
+            id
+          })
+        } else if (image !== null && gallerySrc.length === 0) {
+          // console.log('True image and not gallery')
+          const imageExt = image.name.slice(image.name.lastIndexOf('.'))
+          const fileData = await fb.storage().ref(`services/${id}/main${imageExt}`).put(image)
+          const imgSrc = await fb.storage().ref().child(fileData.ref.fullPath).getDownloadURL()
+          // console.log(imgSrc)
+          await fb.database().ref('services').child(id).update({
+            ...updateObject,
+            imgSrc
+          })
+          commit('updateService', {
+            ...updateObject,
+            imgSrc,
+            id
+          })
+        } else if (image == null && gallerySrc.length !== 0) {
+          // console.log('Not image and true gallery')
+          await setImageStorage(gallerySrc, id)
+          const gallery = await Promise.all(Promises)
+          await fb.database().ref('services').child(id).update({
+            ...updateObject,
+            gallery
+          })
+          commit('updateService', {
+            ...updateObject,
+            gallery,
+            id
+          })
+        } else {
+          // console.log('All is true')
+          const imageExt = image.name.slice(image.name.lastIndexOf('.'))
+          const fileData = await fb.storage().ref(`services/${id}/main${imageExt}`).put(image)
+          const imgSrc = await fb.storage().ref().child(fileData.ref.fullPath).getDownloadURL()
+          await setImageStorage(gallerySrc, id)
+          const gallery = await Promise.all(Promises)
+          await fb.database().ref('services').child(id).update({
+            ...updateObject,
+            imgSrc,
+            gallery
+          })
+          commit('updateService', {
+            ...updateObject,
+            imgSrc,
+            gallery,
+            id
+          })
+        }
       } catch (error) {
         alert(error.message)
         throw error
       }
     },
     async removeService ({commit, getters}, id) {
-      console.log(id)
+      // console.log(id)
       try {
         await fb.database().ref('services').child(id).remove()
         await fb.storage().ref('services').child(id).remove()

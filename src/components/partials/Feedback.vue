@@ -13,7 +13,7 @@
           </div>
           <div class="feedback_box col-12 col-md-6">
             <div class="feedback_box_overlay"></div>
-            <img src="/static/img/feedback.250d187.png" alt="" class="feedback_box_img" />
+            <img src="https://firebasestorage.googleapis.com/v0/b/modern-house.appspot.com/o/common%2Ffeedback.png?alt=media&token=4e58151e-1fa3-43ac-8d2e-51c1f3be8106" alt="" class="feedback_box_img" />
           </div>
         </div>
       </section>

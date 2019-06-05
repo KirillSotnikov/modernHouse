@@ -32,5 +32,6 @@ new Vue({
 
     fb.initializeApp(firebaseConfig)
     store.dispatch('fetchProducts')
+    store.dispatch('fetchPortfolio')
   }
 })

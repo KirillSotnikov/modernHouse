@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import $ from "jquery";
+import jQuery from "jquery";
 import Slick from "vue-slick";
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";

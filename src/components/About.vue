@@ -40,7 +40,7 @@
             <div
               class="serve_container_item serve_container_item_image mb-4 col-12 col-md-6"
             >
-              <img src="/static/img/about.df072d6.png" alt="" class="serve_container_img" />
+              <img src="https://firebasestorage.googleapis.com/v0/b/modern-house.appspot.com/o/common%2Fabout.png?alt=media&token=05e0345c-f824-4933-800d-986fb060d97a" alt="" class="serve_container_img" />
             </div>
           </div>
         </div>

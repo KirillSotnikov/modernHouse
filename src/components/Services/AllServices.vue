@@ -34,7 +34,7 @@
               class="serve_container_item serve_container_item_image col-12 col-md-4"
             >
               <img
-                src="/static/img/window.b961135.png"
+                src="https://firebasestorage.googleapis.com/v0/b/modern-house.appspot.com/o/common%2Fwindow.png?alt=media&token=6c53db84-f176-4b3e-a1af-aa44b6c88551"
                 alt=""
                 class="serve_container_img mb-3"
               />

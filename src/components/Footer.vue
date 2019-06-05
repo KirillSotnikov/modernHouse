@@ -5,7 +5,7 @@
         <div class="footer_container row">
           <div class="footer_container_item footer_container_item_first col-12 col-sm-6 col-lg-3">
             <a href="" class="footer_container_logo">
-              <img src="/static/img/logo.b7a37ba.png" alt="" class="footer_container_logo_img" />
+              <img src="https://firebasestorage.googleapis.com/v0/b/modern-house.appspot.com/o/common%2Flogo.png?alt=media&token=277337cb-0979-4d17-8ba7-5825b1db1c08" alt="" class="footer_container_logo_img" />
               <p class="footer_container_logo_text">СОВРЕМЕННЫЙ ДОМ</p>
             </a>
             <div class="footer_container_info">

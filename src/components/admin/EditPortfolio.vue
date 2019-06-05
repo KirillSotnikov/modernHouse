@@ -1,8 +1,8 @@
 <template>
 <div>
   <admin-navbar></admin-navbar>
-  <div v-if="service" class="container form_container mt-5">
-    <h2 class="h2">Edit Service</h2>
+  <div v-if="portfolio" class="container form_container mt-5">
+    <h2 class="h2">Edit Portfolio</h2>
     <form>
       <div class="form-group">
         <label for="Title">Title</label>
@@ -24,18 +24,6 @@
         style="display: none" 
         accept="image/*">
         <img class="mt-3 fileImgInput" :src="edited.imgSrc" height="200px" v-if="edited.imgSrc">
-      </div>
-      <div class="form-check mb-3">
-        <input type="checkbox" :checked="edited.promo" @click="promoChange  " class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Is it Promo?</label>
-      </div>
-
-      <div class="form-group advantages_arr">
-        <label>Advantages</label>
-        <i class="fas fa-plus" @click="addAdvantage"></i>
-        <div class="input_box">
-          <input type="text" v-for="(advantage, index) in edited.advantages" :key="index" v-model="advantage.title" class="form-control advantageInput w-50 mt-2">
-        </div>
       </div>
       <div class="form-group mb-0">
         <label>Gallery</label>
@@ -95,19 +83,17 @@ export default {
   },
   props: ['id'],
   computed: {
-    service() {
+    portfolio() {
       const id = this.id
-      return this.$store.getters.serviceById(id)
+      return this.$store.getters.portfolioById(id)
     },
     edited() {
       // console.log(this.service.imgSrc)
       return {
-        title: this.service.title,
-        description: this.service.description,
-        promo: this.service.promo,
-        advantages: this.service.advantages,
-        gallery: this.service.gallery,
-        imgSrc: this.service.imgSrc
+        title: this.portfolio.title,
+        description: this.portfolio.description,
+        gallery: this.portfolio.gallery,
+        imgSrc: this.portfolio.imgSrc
       }
     }
   },
@@ -140,27 +126,16 @@ export default {
     },
     onSave () {
       if(this.edited.title != '' && this.edited.description != '') {
-        console.log(this.edited.promo)
         this.submitText = 'Loading...'
-        let advantageArr = document.querySelectorAll('.advantageInput')
-        let advantages = []
-        advantageArr.forEach(element => {
-          // console.log(element.value)
-          let ArrItem = {title: element.value}
-          // console.log(ArrItem)
-          advantages.push(ArrItem)
-        })
-        this.$store.dispatch('updateService', {
+        this.$store.dispatch('updatePortfolio', {
           title: this.edited.title,
           description: this.edited.description,
-          promo: this.edited.promo,
-          advantages: advantages,
           imgSrc: this.image,
           gallery: this.galleryFiles,
-          id: this.service.id
+          id: this.portfolio.id
         })
           .then(() => {
-            this.$router.push('/admin/services')
+            this.$router.push('/admin/portfolio')
           })
       } else {
         this.submitText = 'Submit'
@@ -193,17 +168,6 @@ export default {
         }
         reader.readAsDataURL(file)
         this.image = file
-    },
-    addAdvantage () {
-      let inputItem = document.createElement('input');
-      inputItem.setAttribute('type', 'text')
-      inputItem.classList.add('form-control')
-      inputItem.classList.add('mt-2')
-      inputItem.classList.add('w-50')
-      inputItem.classList.add('advantageInput')
-      let advantageArr = document.getElementsByClassName('input_box')[0]
-      // console.log(inputItem)
-      advantageArr.appendChild(inputItem)
     }
   }
 }

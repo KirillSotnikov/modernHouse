@@ -13,30 +13,26 @@
         </div>
         <div class="partners_slider_mobile">
           <slick ref="slick" :options="partnersMobileSliderOptions">
-            <div class="slide">
-              <img src="/static/img/partners.accaf6d.png" alt="" class="partners_slider_mobile_img" />
+            <div class="slide" v-for="(partner, index) in partners"
+              :key="index">
+              <img :src="partner.imgSrc" alt="" class="partners_slider_mobile_img" />
+              <!-- <img src="/static/img/partners.accaf6d.png" alt="" class="partners_slider_mobile_img" /> -->
+            </div>
+            <!-- <div class="slide">
               <img src="/static/img/partners.accaf6d.png" alt="" class="partners_slider_mobile_img" />
             </div>
             <div class="slide">
               <img src="/static/img/partners.accaf6d.png" alt="" class="partners_slider_mobile_img" />
+            </div>
+            <div class="slide">
               <img src="/static/img/partners.accaf6d.png" alt="" class="partners_slider_mobile_img" />
             </div>
             <div class="slide">
               <img src="/static/img/partners.accaf6d.png" alt="" class="partners_slider_mobile_img" />
-              <img src="/static/img/partners.accaf6d.png" alt="" class="partners_slider_mobile_img" />
             </div>
             <div class="slide">
               <img src="/static/img/partners.accaf6d.png" alt="" class="partners_slider_mobile_img" />
-              <img src="/static/img/partners.accaf6d.png" alt="" class="partners_slider_mobile_img" />
-            </div>
-            <div class="slide">
-              <img src="/static/img/partners.accaf6d.png" alt="" class="partners_slider_mobile_img" />
-              <img src="/static/img/partners.accaf6d.png" alt="" class="partners_slider_mobile_img" />
-            </div>
-            <div class="slide">
-              <img src="/static/img/partners.accaf6d.png" alt="" class="partners_slider_mobile_img" />
-              <img src="/static/img/partners.accaf6d.png" alt="" class="partners_slider_mobile_img" />
-            </div>
+            </div> -->
           </slick>
         </div>
       </section>

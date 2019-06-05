@@ -10,7 +10,7 @@ export default {
   mutations: {
     setUser (state, payload) {
       state.user = payload
-      console.log(state.user)
+      // console.log(state.user)
     }
   },
   actions: {
@@ -34,7 +34,7 @@ export default {
     },
     checkUser (state) {
       let LC_KEY = window.localStorage.getItem('checkedUser')
-      console.log(LC_KEY)
+      // console.log(LC_KEY)
       return LC_KEY
     }
   }

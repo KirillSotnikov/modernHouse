@@ -12,13 +12,13 @@
             <th scope="col">Main Image</th>
             <th scope="col">Gallery</th>
             <th scope="col">
-              <button type="button" class="btn btn-outline-dark">Add New</button>
+              <router-link class="btn btn-outline-dark" to="/admin/new-portfolio">Add New</router-link>
             </th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(portfolio, index) in portfolioList" :key="index">
-            <td scope="row">{{portfolio.id}}</td>
+            <td scope="row">{{index + 1}}</td>
             <td>{{portfolio.title}}</td>
             <td class="table_description">{{portfolio.description}}</td>
             <td>
@@ -37,8 +37,10 @@
               <img width="100px" src="/static/img/main_slider1.d7da8ad.png" alt="">-->
             </td>
             <td>
-              <button type="button" class="btn btn-outline-dark mb-3">Edit</button>
-              <button type="button" class="btn btn-outline-dark">Delete</button>
+              <router-link class="btn btn-outline-dark mb-2 d-block" :to="'/admin/edit-portfolio/' + portfolio.id">Edit</router-link>
+              <!-- <button type="button" class="btn btn-outline-dark mb-2" :data-service="service.id">Edit</button> -->
+              <button type="button" class="btn btn-outline-dark mb-2 d-block" :data-serviceId="portfolio.id" @click="removePortfolio(portfolio.id)">Delete</button>
+              <router-link class="btn btn-outline-dark d-block" :to="'/portfolio-work/' + portfolio.id">Show</router-link>
             </td>
           </tr>
         </tbody>
@@ -52,6 +54,12 @@ import AdminNavbar from "@/components/admin/AdminNavbar";
 export default {
   components: {
     "admin-navbar": AdminNavbar
+  },
+  methods: {
+    removePortfolio (id) {
+      this.$store.dispatch('removePortfolio', id)
+      document.location.reload()
+    }
   },
   computed: {
     portfolioList() {
@@ -86,7 +94,7 @@ export default {
       list-style: disc;
     }
     img {
-      width: 100px;
+      width: 50px;
       display: block;
       margin: 5px;
     }

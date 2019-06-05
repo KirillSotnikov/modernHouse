@@ -3,25 +3,25 @@ export default {
   state: {
     partners: [
       {
-        imgSrc: '/static/img/partners.accaf6d.png'
+        imgSrc: 'https://firebasestorage.googleapis.com/v0/b/modern-house.appspot.com/o/common%2Fpartners.png?alt=media&token=adb9f7b9-e655-4d53-b745-cabc4988bf64'
       },
       {
-        imgSrc: '/static/img/partners.accaf6d.png'
+        imgSrc: 'https://firebasestorage.googleapis.com/v0/b/modern-house.appspot.com/o/common%2Fpartners.png?alt=media&token=adb9f7b9-e655-4d53-b745-cabc4988bf64'
       },
       {
-        imgSrc: '/static/img/partners.accaf6d.png'
+        imgSrc: 'https://firebasestorage.googleapis.com/v0/b/modern-house.appspot.com/o/common%2Fpartners.png?alt=media&token=adb9f7b9-e655-4d53-b745-cabc4988bf64'
       },
       {
-        imgSrc: '/static/img/partners.accaf6d.png'
+        imgSrc: 'https://firebasestorage.googleapis.com/v0/b/modern-house.appspot.com/o/common%2Fpartners.png?alt=media&token=adb9f7b9-e655-4d53-b745-cabc4988bf64'
       },
       {
-        imgSrc: '/static/img/partners.accaf6d.png'
+        imgSrc: 'https://firebasestorage.googleapis.com/v0/b/modern-house.appspot.com/o/common%2Fpartners.png?alt=media&token=adb9f7b9-e655-4d53-b745-cabc4988bf64'
       },
       {
-        imgSrc: '/static/img/partners.accaf6d.png'
+        imgSrc: 'https://firebasestorage.googleapis.com/v0/b/modern-house.appspot.com/o/common%2Fpartners.png?alt=media&token=adb9f7b9-e655-4d53-b745-cabc4988bf64'
       },
       {
-        imgSrc: '/static/img/partners.accaf6d.png'
+        imgSrc: 'https://firebasestorage.googleapis.com/v0/b/modern-house.appspot.com/o/common%2Fpartners.png?alt=media&token=adb9f7b9-e655-4d53-b745-cabc4988bf64'
       }
     ]
   },
